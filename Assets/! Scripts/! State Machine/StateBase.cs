@@ -14,25 +14,25 @@ public abstract class StateBase<T>
     
     protected StateBase(T owner) { Owner = owner; }
 
-    internal void Enter()
+    public virtual void Enter()
     {
         OnEnter();
         subStateMachine?.Start();
     }
 
-    internal void Exit()
+    public virtual void Exit()
     {
         subStateMachine?.Stop(); 
         OnExit();
     }
 
-    internal void Update()
+    public virtual void Update()
     {
         OnUpdate();
         subStateMachine?.Update();
     }
 
-    internal void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         OnFixedUpdate();
         subStateMachine?.FixedUpdate();

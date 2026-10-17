@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7843802576538644094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 794356922921013474}
+  m_Layer: 0
+  m_Name: TrackObject
+  m_TagString: Player
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &794356922921013474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843802576538644094}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8943476502884300264}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8905627486550086147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56,6 +87,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: bbae9d5febc4dbc4bae80f6573ed8c03, type: 2}
+    - target: {fileID: 635547659545568360, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
       propertyPath: m_Name
       value: Player Pref
@@ -76,26 +111,55 @@ PrefabInstance:
       propertyPath: m_Name
       value: Face
       objectReference: {fileID: 0}
+    - target: {fileID: 2173466925429366238, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 794356922921013474}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8585155957694844457}
+      addedObject: {fileID: 2904157147071780375}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2094809100153477026}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1173221314103720184}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6797311658586071416}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 437652188298068885}
   m_SourcePrefab: {fileID: 100100000, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
 --- !u!1 &8599145004172635986 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
   m_PrefabInstance: {fileID: 8905627486550086147}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8585155957694844457
+--- !u!114 &2904157147071780375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599145004172635986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54ccc6a3af20a3438a50c3becb0f08e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerView
+--- !u!114 &2094809100153477026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49a6e7cba3419f4497f8a4cb40a9764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  moveAction: {fileID: 2953768943453431351, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  playerConfig: {fileID: 11400000, guid: e227a58a103aa1a40b1c4ecda4340ca0, type: 2}
 --- !u!136 &1173221314103720184
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -126,10 +192,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.2
+  m_Height: 1.65
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!54 &6797311658586071416
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -154,6 +220,32 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!65 &437652188298068885
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599145004172635986}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.25, y: 0.18, z: 0.25}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &8943476502884300264 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7b9514f4fa9ace942a75bd2d65eed078, type: 3}
+  m_PrefabInstance: {fileID: 8905627486550086147}
+  m_PrefabAsset: {fileID: 0}

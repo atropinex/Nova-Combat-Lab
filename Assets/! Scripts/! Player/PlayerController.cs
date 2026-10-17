@@ -1,34 +1,73 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
+[RequireComponent(typeof(PlayerView))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Speeds")]
-    public float walkSpeed = 3f;
-    public float runSpeed = 6f;
-    public float airSpeed = 3f;
-    public float swimSpeed = 2.5f;
+    [Header("Input")]
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private PlayerConfigSO playerConfig;
 
-    [Header("Jump")]
-    public float jumpHeight = 1.5f;
-    public float jumpBuffer = 0.15f;
+    private PlayerModel _playerModel;
+    public PlayerView _playerView { get; private set; }
 
-    [Header("Ground Check")]
-    public LayerMask groundMask = ~0;
-    public float groundCheckDistance = 0.1f;
+    private StateMachineBase<PlayerController> machine;
+    private StateBase<PlayerController> grounded;
     
-    protected StateMachineBase<PlayerController> machine;
-    protected Rigidbody rb;
-    protected CapsuleCollider capsule;
+    // ========== Player States ========== //
+    private FloatingCapsuleBase _floatingCapsuleBase;
     
-    public bool IsGrounded { get; private set; }
-    public bool RunHeld { get; private set; }
-    public Vector2 MoveInput { get; private set; }
-
+    
+    // ========== State Access ========== //
+    public FloatingCapsuleBase FloatingCapsuleBase => _floatingCapsuleBase;
+    
+    
     protected void Awake()
     {
-        this.rb = GetComponent<Rigidbody>();
-        this.capsule = GetComponent<CapsuleCollider>();
+        // ====== Setup Player Configs ====== //
+        this._playerModel = new PlayerModel(this.playerConfig);
+        this._playerView = GetComponent<PlayerView>();
         
+        // ====== Build State Machine First ====== //
+        BuildStateMachine();
+        
+        // ====== Other Configs ====== //
+    }
+
+    protected void Start()
+    {
+        this._floatingCapsuleBase = new FloatingCapsuleBase(this.playerConfig, this._playerView.Rigidbody, this._playerView.Capsule, this._playerView.transform);
+    }
+
+    protected void BuildStateMachine()
+    {
+        this.grounded = new GroundedState(this);
+        this.machine = new StateMachineBase<PlayerController>();
+        this.machine.SetDefault(this.grounded);
+    }
+
+    protected void OnEnable()
+    {
+        this.moveAction.action.Enable();
+    }
+
+    protected void OnDisable()
+    {
+        this.moveAction.action.Disable();
+    }
+
+    protected void OnDestroy()
+    {
+        this.machine.Stop();
+    }
+
+    protected void Update()
+    {
+        this.machine.Update();
+    }
+
+    protected void FixedUpdate()
+    {
+        this.machine.FixedUpdate();
     }
 }
