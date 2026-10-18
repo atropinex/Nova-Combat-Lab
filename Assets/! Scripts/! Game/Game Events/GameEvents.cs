@@ -4,15 +4,16 @@ using UnityEngine;
 
 public static class GameEvents
 {
-    private static Dictionary<GameEventsEnum, Action> eventTable = new Dictionary<GameEventsEnum, Action>();
-    private static Dictionary<(GameEventsEnum, Action), Action> eventTableOnce = new Dictionary<(GameEventsEnum, Action), Action>();
+    private static readonly Dictionary<object, Action<object>> eventTable = new();
+    private static readonly Dictionary<(object EventType, Action<object> Callback), Action<object>> eventTableOnce = new();
+
 
     // Event that Subscribe and can have continuous callbacks when the event is emitted
-    public static void On(GameEventsEnum gameEventsEnum, Action action)
+    public static void On(object gameEventsEnum, Action<object> action)
     {
         if (!eventTable.ContainsKey(gameEventsEnum))
         {
-            eventTable[gameEventsEnum] = action; 
+            eventTable[gameEventsEnum] = action;
         }
         else
         {
@@ -21,40 +22,45 @@ public static class GameEvents
     }
 
     // Event that Subscribe once but then removes itself
-    public static void Once(GameEventsEnum gameEventsEnum, Action action)
+    public static void Once(object gameEventsEnum, Action<object> action)
     {
         var key = (gameEventsEnum, action);
         if (eventTableOnce.ContainsKey(key)) return;
 
-        Action wrapper = null;
-        wrapper = () =>
+        Action<object> wrapper = null;
+        wrapper = data =>
         {
             eventTableOnce.Remove(key);
             Off(gameEventsEnum, wrapper);
-            action();
+            action(data);
         };
-        
+
         eventTableOnce[key] = wrapper;
         On(gameEventsEnum, wrapper);
     }
 
-    public static void Off(GameEventsEnum gameEventsEnum, Action action)
+    public static void Off(object gameEventsEnum, Action<object> action)
     {
-        if (eventTable.ContainsKey(gameEventsEnum))
+        if (eventTable.TryGetValue(gameEventsEnum, out var actions))
         {
-            eventTable[gameEventsEnum] -= action;
-            if (eventTable[gameEventsEnum] == null)
+            actions -= action;
+
+            if (actions == null)
             {
                 eventTable.Remove(gameEventsEnum);
+            }
+            else
+            {
+                eventTable[gameEventsEnum] = actions;
             }
         }
     }
 
-    public static void Emit(GameEventsEnum gameEventsEnum)
+    public static void Emit(object gameEventsEnum, params object[] data)
     {
-        if (eventTable.ContainsKey(gameEventsEnum))
+        if (eventTable.TryGetValue(gameEventsEnum, out var actions))
         {
-            eventTable[gameEventsEnum]?.Invoke();
+            actions?.Invoke(data);
         }
     }
 }

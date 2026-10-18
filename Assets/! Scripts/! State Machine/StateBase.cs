@@ -5,12 +5,11 @@ public abstract class StateBase<T>
 {
     public T Owner { get; }
     public StateBase<T> Parent { get; internal set; }
-    
-    public bool keepHistory { get; protected set; }
-    
-    StateMachineBase<T> subStateMachine;
+    public StateMachineBase<T> subStateMachine;
     public StateMachineBase<T> SubStateMachine => subStateMachine ??= new StateMachineBase<T>();
     public bool hasSubStateMachine => subStateMachine != null;
+    public bool keepHistory { get; protected set; }
+    public UniversalStateEnum state { get; protected set; }
     
     protected StateBase(T owner) { Owner = owner; }
 

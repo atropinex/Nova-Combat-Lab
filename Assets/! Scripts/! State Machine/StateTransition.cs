@@ -6,8 +6,8 @@ public sealed class StateTransition<T>
     public StateBase<T> PreviousState;
     public StateBase<T> NextState;
     public Func<bool> Condition;
-    public GameEventsEnum? TransitionTrigger;
+    public object TransitionTrigger;
     public int Priority;
 
-    internal Action Handler;
+    internal Action<object> Handler;
 }

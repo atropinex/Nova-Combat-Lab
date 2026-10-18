@@ -6,6 +6,9 @@ using UnityEngine;
 public class PlayerModel
 {
     private readonly PlayerConfigSO config;
+    private UniversalStateEnum playerParentState;
+    private UniversalStateEnum playerSubState;
+    
 
     public PlayerModel(PlayerConfigSO config)
     {
@@ -17,4 +20,16 @@ public class PlayerModel
     public float PlayerDecelerationSpeed => config.PlayerDecelerationSpeed;
     public float PlayerRotationSpeed => config.PlayerRotationSpeed;
     
+
+    public UniversalStateEnum PlayerParentState
+    {
+        get => playerParentState;
+        set => playerParentState = value;
+    }
+    
+    public UniversalStateEnum PlayerSubState
+    {
+        get => playerSubState;
+        set => playerSubState = value;
+    }
 }

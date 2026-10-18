@@ -1,0 +1,18 @@
+public enum UniversalStateEnum
+{
+    STATE_GROUNDED,
+    STATE_AIRBOURNE,
+    STATE_SWIMMING,
+    
+    STATE_IDLE,
+    STATE_WALKING,
+    STATE_RUNNING,
+    STATE_SPRINTING,
+    STATE_JUMPING,
+    
+    
+    STATE_ATTACKING,
+    STATE_HIT,
+    STATE_DOWN,
+    STATE_DEAD,
+}

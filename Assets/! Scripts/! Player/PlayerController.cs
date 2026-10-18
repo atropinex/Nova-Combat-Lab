@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     private StateMachineBase<PlayerController> machine;
     private StateBase<PlayerController> grounded;
+    private StateBase<PlayerController> airbourne;
     
     // ========== Player States ========== //
     private FloatingCapsuleBase _floatingCapsuleBase;
@@ -22,6 +23,21 @@ public class PlayerController : MonoBehaviour
     public FloatingCapsuleBase FloatingCapsuleBase => _floatingCapsuleBase;
     
     
+    // ========== Getters State ========== //
+    public UniversalStateEnum PlayerParentState
+    {
+        get => _playerModel.PlayerParentState;
+        set => _playerModel.PlayerParentState = value;
+    }
+
+    public UniversalStateEnum PlayerSubState
+    {
+        get => _playerModel.PlayerSubState;
+        set => _playerModel.PlayerSubState = value;
+    }
+    
+    
+    // ========== Game Related ========== //
     protected void Awake()
     {
         // ====== Setup Player Configs ====== //
@@ -38,13 +54,19 @@ public class PlayerController : MonoBehaviour
     {
         this._floatingCapsuleBase = new FloatingCapsuleBase(this.playerConfig, this._playerView.Rigidbody, this._playerView.Capsule, this._playerView.transform);
     }
-
+    
+    
+    
+    
+    // ========== Others ========== //
     protected void BuildStateMachine()
     {
-        this.grounded = new GroundedState(this);
         this.machine = new StateMachineBase<PlayerController>();
+        this.grounded = new PlayerGroundedState(this);
+        this.airbourne = new PlayerAirbourneState(this);
         this.machine.SetDefault(this.grounded);
     }
+
 
     protected void OnEnable()
     {

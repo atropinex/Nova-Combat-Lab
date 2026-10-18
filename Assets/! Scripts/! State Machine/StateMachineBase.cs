@@ -37,10 +37,10 @@ public class StateMachineBase<T>
     public StateMachineBase<T> Any(StateBase<T> to, Func<bool> condition, int priority = 0)
         => AddTransition(new StateTransition<T> { PreviousState = null, NextState = to, Condition = condition, Priority = priority });
     
-    public StateMachineBase<T> On(GameEventsEnum evt, StateBase<T> from, StateBase<T> to, Func<bool> guard = null)
+    public StateMachineBase<T> On(object evt, StateBase<T> from, StateBase<T> to, Func<bool> guard = null)
         => AddTransition(new StateTransition<T> { PreviousState = from, NextState = to, TransitionTrigger = evt, Condition = guard });
     
-    public StateMachineBase<T> OnAny(GameEventsEnum evt, StateBase<T> to, Func<bool> guard = null)
+    public StateMachineBase<T> OnAny(object evt, StateBase<T> to, Func<bool> guard = null)
         => AddTransition(new StateTransition<T> { PreviousState = null, NextState = to, TransitionTrigger = evt, Condition = guard });
 
 
@@ -50,10 +50,10 @@ public class StateMachineBase<T>
         if (transition.PreviousState != null) RegisterState(transition.PreviousState);
         RegisterState(transition.NextState);
 
-        if (transition.TransitionTrigger.HasValue)
+        if (transition.TransitionTrigger != null)
         {
-            transition.Handler = () => OnTrigger(transition);
-            if (running) GameEvents.On(transition.TransitionTrigger.Value,  transition.Handler);
+            transition.Handler = data => OnTrigger(transition, data);
+            if (running) GameEvents.On(transition.TransitionTrigger,  transition.Handler);
         }
         
         int i = transitions.Count;
@@ -78,9 +78,9 @@ public class StateMachineBase<T>
 
         foreach (var transition in transitions)
         {
-            if (transition.TransitionTrigger.HasValue)
+            if (transition.TransitionTrigger != null)
             {
-                GameEvents.On(transition.TransitionTrigger.Value, transition.Handler);
+                GameEvents.On(transition.TransitionTrigger, transition.Handler);
             }
         }
         
@@ -95,9 +95,9 @@ public class StateMachineBase<T>
         running = false;
         foreach (var transition in transitions)
         {
-            if (transition.TransitionTrigger.HasValue)
+            if (transition.TransitionTrigger != null)
             {
-                GameEvents.Off(transition.TransitionTrigger.Value, transition.Handler);
+                GameEvents.Off(transition.TransitionTrigger, transition.Handler);
             }
         }
     }
@@ -106,7 +106,7 @@ public class StateMachineBase<T>
     {
         if (!running) Start();
         EvaluatePolled();
-        if (currentState == null) return;
+        if (currentState == null) { return; }
 
         currentState.Update();
         if (currentState.hasSubStateMachine) currentState.SubStateMachine.Update();
@@ -114,7 +114,7 @@ public class StateMachineBase<T>
     
     public void FixedUpdate()
     {
-        if (currentState == null) return;
+        if (currentState == null) { return; }
         currentState.FixedUpdate();
         if (currentState.hasSubStateMachine) currentState.SubStateMachine.FixedUpdate();
     }
@@ -124,10 +124,10 @@ public class StateMachineBase<T>
 
     #region ========= State Transitions =========
     // ========== State Transitions ==========
-    public void ChangeState(StateBase<T> nextState)
+    private void ChangeState(StateBase<T> nextState)
     {
         if (busy) { pending = nextState; hasPending = true; return; }
-        if (nextState == currentState) return;
+        if (nextState == currentState) { return; }
 
         busy = true;
         var prev = currentState;
@@ -157,21 +157,21 @@ public class StateMachineBase<T>
         }
     }
 
-    void EvaluatePolled()
+    private void EvaluatePolled()
     {
         foreach (var transition in transitions)
         {
-            if (transition.TransitionTrigger.HasValue) continue;
-            if (transition.PreviousState != null && transition.PreviousState != currentState) continue;
-            if (transition.NextState == currentState) continue;
-            if (transition.Condition != null && !transition.Condition()) continue;
+            if (transition.TransitionTrigger != null) { continue; }
+            if (transition.PreviousState != null && transition.PreviousState != currentState) { continue; }
+            if (transition.NextState == currentState) { continue; }
+            if (transition.Condition != null && !transition.Condition()) { continue; }
             
             ChangeState(transition.NextState);
             return;
         }
     }
 
-    void OnTrigger(StateTransition<T> transition)
+    private void OnTrigger(StateTransition<T> transition, object data)
     {
         if (!running) { return; }
         if (transition.PreviousState != null && transition.PreviousState != currentState) { return; }
