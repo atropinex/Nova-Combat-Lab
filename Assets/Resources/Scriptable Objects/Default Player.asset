@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fcf6399d2f31fc4cb55b7b65d826aa0, type: 3}
   m_Name: Default Player
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConfigSO
-  playerSpeed: 2.5
+  playerSpeed: 5
   playerAccelerationSpeed: 2.15
   playerDecelerationSpeed: 1.85
-  playerRotationSpeed: 5
+  playerMovementThreshold: 0.1
+  playerRotationSpeed: 0.35
   playerMinRotationAngle: 0.1
   playerMaxRotationAngle: 90
   playerMinRotationValue: 1.45

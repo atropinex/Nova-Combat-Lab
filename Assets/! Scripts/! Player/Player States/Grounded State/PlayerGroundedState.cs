@@ -1,9 +1,19 @@
 public class PlayerGroundedState : StateBase<PlayerController>
 {
-    public PlayerGroundedState(PlayerController p) : base(p)
+    private PlayerIdleState _idleState;
+    private PlayerWalkingState _walkingState;
+    
+    public PlayerGroundedState(PlayerController p, PlayerModel pmodel) : base(p)
     {
         this.state = UniversalStateEnum.STATE_GROUNDED;
-        Owner.PlayerParentState = this.state;
+        this.Owner.PlayerParentState = this.state;
+        
+        this._idleState = new PlayerIdleState(Owner);
+        this._walkingState = new PlayerWalkingState(Owner);
+        
+        this.SubStateMachine.SetDefault(this._idleState);
+        this.SubStateMachine.Add(this._idleState, this._walkingState,() => pmodel.HasMovementInput);
+        this.SubStateMachine.Add(this._walkingState, this._idleState,() => !pmodel.HasMovementInput);
     }
 
     public override void Enter()
@@ -22,11 +32,11 @@ public class PlayerGroundedState : StateBase<PlayerController>
 
     public override void Update()
     {
-        Owner.FloatingCapsuleBase.Update();
+        this.Owner.FloatingCapsuleBase.Update();
     }
     
     public override void FixedUpdate()
     {
-        Owner.FloatingCapsuleBase.FixedUpdate();
+        this.Owner.FloatingCapsuleBase.FixedUpdate();
     }
 }

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerAirbourneState : StateBase<PlayerController>
 {
-    public PlayerAirbourneState(PlayerController p) : base(p)
+    public PlayerAirbourneState(PlayerController p, PlayerModel pmodel) : base(p)
     {
         this.state = UniversalStateEnum.STATE_AIRBOURNE;
-        Owner.PlayerParentState = this.state;
+        this.Owner.PlayerParentState = this.state;
     }
 
     public override void Enter()
@@ -25,12 +25,12 @@ public class PlayerAirbourneState : StateBase<PlayerController>
 
     public override void Update()
     {
-        Owner.FloatingCapsuleBase.Update();
+        this.Owner.FloatingCapsuleBase.Update();
     }
 
     public override void FixedUpdate()
     {
-        Owner.FloatingCapsuleBase.FixedUpdate();
+        this.Owner.FloatingCapsuleBase.FixedUpdate();
     }
 
     

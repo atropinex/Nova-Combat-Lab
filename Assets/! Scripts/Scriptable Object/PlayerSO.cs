@@ -9,6 +9,7 @@ public class PlayerConfigSO : ScriptableObject, IFloatingCapsuleModel
     [SerializeField] private float playerSpeed = 2.5f;
     [SerializeField] private float playerAccelerationSpeed = 2.15f;
     [SerializeField] private float playerDecelerationSpeed = 1.85f;
+    [SerializeField, Range(0f, 1f)] private float playerMovementThreshold = 0.1f;
 
     // =========================
     // ROTATION
@@ -40,6 +41,7 @@ public class PlayerConfigSO : ScriptableObject, IFloatingCapsuleModel
     public float PlayerSpeed => playerSpeed;
     public float PlayerAccelerationSpeed => playerAccelerationSpeed;
     public float PlayerDecelerationSpeed => playerDecelerationSpeed;
+    public float PlayerMovementThreshold => this.playerMovementThreshold;
 
     // =========================
     // ROTATION PROPERTIES
